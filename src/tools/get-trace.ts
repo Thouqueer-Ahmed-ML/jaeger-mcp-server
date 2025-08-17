@@ -11,7 +11,7 @@ export class GetTrace implements Tool {
     }
 
     description(): string {
-        return 'Gets the spans by the given trace by ID as JSON array of object in the OpenTelemetry resource spans format';
+        return 'Gets the complete trace for a specific trace ID. Returns trace in OpenTelemetry resource spans format.';
     }
 
     paramsSchema() {
@@ -19,7 +19,7 @@ export class GetTrace implements Tool {
             traceId: z
                 .string()
                 .describe(
-                    'Filters spans by OpenTelemetry compatible trace id in 32-character hexadecimal string format (Required)'
+                    'Valid trace ID in 32-character hexadecimal format. Trace IDs can be obtained from logs, monitoring systems, or Jaeger trace searches. This will be used to retrieve all spans for the specified trace.'
                 )
                 .regex(
                     new RegExp(/^[0-9a-fA-F]{32}$/),
@@ -29,14 +29,14 @@ export class GetTrace implements Tool {
                 .string()
                 .datetime()
                 .describe(
-                    'The start time to filter spans in the RFC 3339, section 5.6 format, (e.g., "2017-07-21T17:32:28Z") (Optional)'
+                    'Start time in RFC 3339 format (e.g., "2017-07-21T17:32:28Z"). This will be used to filter spans that started on or after this time.'
                 )
                 .optional(),
             endTime: z
                 .string()
                 .datetime()
                 .describe(
-                    'The end time to filter spans in the RFC 3339, section 5.6 format, (e.g., "2017-07-21T17:32:28Z") (Optional)'
+                    'End time in RFC 3339 format (e.g., "2017-07-21T17:32:28Z"). This will be used to filter spans that started before this time.'
                 )
                 .optional(),
         };

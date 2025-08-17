@@ -18,7 +18,7 @@ export class GetOperations implements Tool {
         return {
             service: z
                 .string()
-                .describe('Filters operations by service name (Required)'),
+                .describe('Service name captured in Jaeger. Discover available services first to get valid service names. This will be used to filter operations by the specified service.'),
             spanKind: z
                 .enum([
                     '',
@@ -29,7 +29,7 @@ export class GetOperations implements Tool {
                     'internal',
                 ])
                 .describe(
-                    'Filters operations by OpenTelemetry span kind ("server", "client", "producer", "consumer", "internal") (Optional)'
+                    'OpenTelemetry span kind ("server", "client", "producer", "consumer", "internal"). This will be used to filter operations by the specified span kind.'
                 )
                 .optional(),
         };
