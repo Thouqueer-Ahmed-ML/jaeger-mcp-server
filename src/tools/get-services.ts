@@ -2,6 +2,7 @@ import { JaegerClient } from '../client';
 import { GetServicesResponse } from '../domain';
 import { Tool } from './types';
 
+import { z } from 'zod';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
 export class GetServices implements Tool {
@@ -10,18 +11,26 @@ export class GetServices implements Tool {
     }
 
     description(): string {
-        return 'Gets the service names as JSON array of string';
+        return 'Gets the service names as JSON array of string. The logMessage parameter is optional and used for documentation/logging purposes only.';
     }
 
     paramsSchema() {
-        return {};
+        return {
+            logMessage: z
+                .string()
+                .describe(
+                    'Optional log message describing why this tool is being called or context for the request. Can be left empty. This parameter is ignored during execution and is only for logging/documentation purposes.'
+                )
+                .optional(),
+        };
     }
 
     async handle(
-        server: Server,
+        _server: Server,
         jaegerClient: JaegerClient,
-        { traceId }: any
+        { logMessage: _logMessage }: any
     ): Promise<string> {
+        // logMessage parameter is ignored - it's only for documentation/logging purposes
         const response: GetServicesResponse = await jaegerClient.getServices(
             {}
         );
