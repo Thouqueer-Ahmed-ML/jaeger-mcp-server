@@ -30,7 +30,8 @@ export class JaegerHttpClient implements JaegerClient {
         this.url = JaegerHttpClient._normalizeUrl(
             clientConfigurations.url,
             clientConfigurations.port,
-            clientConfigurations.allowDefaultPort
+            clientConfigurations.allowDefaultPort,
+            clientConfigurations.httpBasePath
         );
         this.authorizationHeader = clientConfigurations.authorizationHeader;
     }
@@ -38,7 +39,8 @@ export class JaegerHttpClient implements JaegerClient {
     private static _normalizeUrl(
         url: string,
         port?: number,
-        allowDefaultPort?: boolean
+        allowDefaultPort?: boolean,
+        httpBasePath?: string
     ): string {
         const schemaIdx: number = url.indexOf(URL_SCHEMA_SEPARATOR);
         if (schemaIdx < 0) {
@@ -58,10 +60,15 @@ export class JaegerHttpClient implements JaegerClient {
             url = `${url}:${port}`;
         }
 
+        if (httpBasePath) {
+            url = `${url}${httpBasePath}`;
+        }
+
         return url;
     }
 
     private async _get<R>(path: string, params?: any): Promise<R> {
+        console.log(`Requesting ${this.url}${path} with params ${params}`);
         const response: AxiosResponse = await axios.get(`${this.url}${path}`, {
             params,
             headers: {

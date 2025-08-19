@@ -68,8 +68,10 @@ export class FindTraces implements Tool {
                 .number()
                 .positive()
                 .describe(
-                    'Maximum number of traces to return from the search. Always start with small values (5-10) to ensure manageable results and good performance. You can gradually increase if more traces are needed.'
+                    'Maximum number of traces to return from the search. Always start with small values to ensure manageable results and good performance. You can gradually increase if more traces are needed.'
                 )
+                .min(1)
+                .max(5)
         };
     }
 

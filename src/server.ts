@@ -22,6 +22,7 @@ function _createJaegerClient(): JaegerClient {
             : undefined,
         authorizationHeader: process.env.JAEGER_AUTHORIZATION_HEADER,
         allowDefaultPort: process.env.JAEGER_USE_DEFAULT_PORT !== 'false',
+        httpBasePath: process.env.JAEGER_HTTP_BASE_PATH,
     });
 }
 

@@ -16,6 +16,7 @@ export type ClientConfigurations = {
     port?: number;
     authorizationHeader?: string;
     allowDefaultPort?: boolean;
+    httpBasePath?: string;
 };
 
 export interface JaegerClient {
