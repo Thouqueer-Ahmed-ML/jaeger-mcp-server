@@ -7,7 +7,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
 export class FindTrace implements Tool {
     name(): string {
-        return 'findTrace';
+        return 'find-trace';
     }
 
     description(): string {

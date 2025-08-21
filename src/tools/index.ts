@@ -2,7 +2,7 @@ import { Tool, ToolInput, ToolOutput, ToolParamsSchema } from './types';
 import { GetOperations } from './get-operations';
 import { GetServices } from './get-services';
 import { GetTrace } from './get-trace';
-import { FindTrace } from './findTrace';
+import { FindTrace } from './find-trace';
 import { GetServiceGraph } from './get-service-graph';
 
 export const tools: Tool[] = [
