@@ -5,13 +5,13 @@ import { Tool } from './types';
 import { z } from 'zod';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
-export class FindTraces implements Tool {
+export class FindTrace implements Tool {
     name(): string {
-        return 'find-traces';
+        return 'findTrace';
     }
 
     description(): string {
-        return 'Searches for complete traces matching your criteria. Returns traces in OpenTelemetry resource spans format.';
+        return 'Finds a single trace matching your criteria. Returns the trace in OpenTelemetry resource spans format.';
     }
 
     paramsSchema() {
@@ -64,14 +64,7 @@ export class FindTraces implements Tool {
                     'Maximum duration of a span in milliseconds. This will be used to filter traces containing spans that lasted at most this long.'
                 )
                 .optional(),
-            searchDepth: z
-                .number()
-                .positive()
-                .describe(
-                    'Maximum number of traces to return from the search. Always start with small values to ensure manageable results and good performance. You can gradually increase if more traces are needed.'
-                )
-                .min(1)
-                .max(5)
+
         };
     }
 
@@ -100,7 +93,6 @@ export class FindTraces implements Tool {
             startTimeMax,
             durationMin,
             durationMax,
-            searchDepth,
         }: any
     ): Promise<string> {
         const response: FindTracesResponse = await jaegerClient.findTraces({
@@ -112,7 +104,7 @@ export class FindTraces implements Tool {
                 startTimeMax: startTimeMax,
                 durationMin,
                 durationMax,
-                searchDepth,
+                searchDepth: 1,
             },
         });
         return JSON.stringify(response.resourceSpans || {});
